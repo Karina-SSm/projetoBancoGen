@@ -1,7 +1,8 @@
-package CLASSES;
+package classes;
 
 import java.util.Scanner;
-import CLASSES.Conta;
+
+import classes.Conta;
 
 public class ContaEstudantil extends Conta {
 

@@ -1,10 +1,10 @@
-package APLICACAO;
+package aplicacao;
 
 import java.util.Scanner;
 
-import CLASSES.Conta;
-import CLASSES.ContaEspecial;
-import CLASSES.ContaEstudantil;
+import classes.Conta;
+import classes.ContaEspecial;
+import classes.ContaEstudantil;
 
 public class Banco {
 

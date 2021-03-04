@@ -1,4 +1,4 @@
-package CLASSES;
+package classes;
 
 public class Conta {
 
