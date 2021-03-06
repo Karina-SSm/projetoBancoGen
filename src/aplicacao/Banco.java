@@ -6,6 +6,7 @@ import classes.ContaCorrente;
 import classes.ContaEmpresa;
 import classes.ContaEspecial;
 import classes.ContaEstudantil;
+import classes.ContaPoupanca;
 
 public class Banco {
 
@@ -19,6 +20,8 @@ public class Banco {
 		ContaEstudantil contaEstudante = null;
 		ContaCorrente contaCorrente = null;
 		ContaEmpresa contaEmpresa = null;
+		ContaPoupanca contaPoupanca = null;
+		int diaDigitado = 0;
 		int contadorTalao = 0;
 		String continuar = null;
 		int operaçoes = 0;
@@ -45,7 +48,18 @@ public class Banco {
 		System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
 
 		tipoConta = ler.nextInt();
+		//Bruno Mota - Conta Poupança//
 		if (tipoConta == 1) {
+			System.out.println("\t\t Tipo de conta selecionada: Poupanca");
+			System.out.println();
+			System.out.println("\t\t Digite o dia de hoje ");
+			diaDigitado = ler.nextInt();
+			System.out.print("\t\t Digite o número da sua conta: ");
+			numero = ler.nextInt();
+			System.out.print("\t\t Digite o número do seu CPF: ");
+			cpf = ler.next();
+			
+			contaPoupanca = new ContaPoupanca(numero, cpf, true, 1);
 		} 
 		// Karina //
 		else if (tipoConta == 2) {
@@ -100,6 +114,31 @@ public class Banco {
 			System.out.println();
 			System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
 			System.out.println();
+			
+			if (tipoConta == 1) {
+				System.out.println("\t\t\t\tConta Poupança");
+				System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+				System.out.println("\t\t\tSaldo " + contaPoupanca.getSaldo());
+				
+				System.out.print("\t\t\tMOVIMENTO [D] Débito ou [C] Crédito: ");
+				movimento = ler.next();
+				System.out.print("\t\t\tValor movimento: R$  ");
+				valor = ler.nextDouble();
+				if (movimento.equalsIgnoreCase("C")) {
+					contaPoupanca.credito(valor);
+					movimentos[operaçoes] = "\t\t\tCrédito " + valor;
+				} else {
+					contaPoupanca.debito(valor);
+					movimentos[operaçoes] = "\t\t\tDébito " + valor;
+				}
+				if(contaPoupanca.getSaldo() > 0) {
+					contaPoupanca.correcao(diaDigitado);
+					System.out.println("Saldo com Correção: "+ contaPoupanca.getSaldo());
+				}
+				operaçoes = operaçoes + 1;
+				}
+				System.out.print("\n\t\t\tContinuar S/N: \n");
+				continuar = ler.next();
 			
 			if (tipoConta == 2) {
 				System.out.println("\t\t\t\tConta Corrente");
