@@ -3,6 +3,7 @@ package aplicacao;
 import java.util.Scanner;
 import classes.Conta;
 import classes.ContaCorrente;
+import classes.ContaEmpresa;
 import classes.ContaEspecial;
 import classes.ContaEstudantil;
 
@@ -17,12 +18,14 @@ public class Banco {
 		ContaEspecial contaMagica = null;
 		ContaEstudantil contaEstudante = null;
 		ContaCorrente contaCorrente = null;
+		ContaEmpresa contaEmpresa = null;
 		int contadorTalao = 0;
 		String continuar = null;
 		int operaçoes = 0;
 		String[] movimentos = new String[10];
 		String movimento = null;
 		double valor = 0.00;
+		double emprestimoEmpresa = 10000;
 		// chamar a minha conta
 		System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
 		System.out.println();
@@ -64,7 +67,15 @@ public class Banco {
 			cpf = ler.next();
 			contaMagica = new ContaEspecial(numero, cpf, true, 1000.00); 
 		} 
+		//Johnny//
 		else if (tipoConta == 4) {
+			System.out.println("\t\t Tipo de conta selecionada: Conta Empresa");
+			System.out.println();
+			System.out.print("\t\t Digite o número da sua conta: ");
+			numero = ler.nextInt();
+			System.out.print("\t\t Digite o número do seu CPF: ");
+			cpf = ler.next();
+			contaEmpresa = new ContaEmpresa(numero, cpf, true, emprestimoEmpresa);
 		}
 		// Igor Pereira //
 		else if (tipoConta == 5) {
@@ -142,6 +153,26 @@ public class Banco {
 				}
 				operaçoes = operaçoes + 1;
 			}
+				System.out.print("\t\t\tContinuar S/N: ");
+				continuar = ler.next();
+				
+			if (tipoConta == 4) {
+				System.out.println("\t\t\t\tConta Empresa");
+				System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+				System.out.println("\t\t\tSaldo " + contaEmpresa.getSaldo());
+				System.out.print("\t\t\tMOVIMENTO [D] Débito ou [C] Crédito: ");
+				movimento = ler.next();
+				System.out.print("\t\t\tValor movimento: R$  ");
+				valor = ler.nextDouble();
+				if (movimento.equalsIgnoreCase("C")) {
+					contaEmpresa.credito(valor);
+					movimentos[operaçoes] = "\t\t\tCrédito " + valor;
+				} else {
+					contaEmpresa.debito(valor);
+					movimentos[operaçoes] = "\t\t\tDébito " + valor;
+				}
+				operaçoes = operaçoes + 1;
+				}
 				System.out.print("\t\t\tContinuar S/N: ");
 				continuar = ler.next();
 			
