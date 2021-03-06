@@ -31,10 +31,10 @@ public class ContaCorrente extends Conta {
 		public void pedirTalao() {
 			if (this.getContadorTalao()<=3) {
 				this.setContadorTalao(this.getContadorTalao()+1);
-				System.out.println("Talao de cheque solicitado");
+				System.out.println("Talão de cheque solicitado");
 			}
 			else {
-				System.out.println("Limete de talao atingido");
+				System.out.println("Limite de talões atingido");
 			}
 		}
 }

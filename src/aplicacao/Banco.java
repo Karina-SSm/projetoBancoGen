@@ -1,8 +1,8 @@
 package aplicacao;
 
 import java.util.Scanner;
-
 import classes.Conta;
+import classes.ContaCorrente;
 import classes.ContaEspecial;
 import classes.ContaEstudantil;
 
@@ -16,6 +16,8 @@ public class Banco {
 		Scanner ler = new Scanner(System.in);
 		ContaEspecial contaMagica = null;
 		ContaEstudantil contaEstudante = null;
+		ContaCorrente contaCorrente = null;
+		int contadorTalao = 0;
 		String continuar = null;
 		int operaçoes = 0;
 		String[] movimentos = new String[10];
@@ -41,11 +43,21 @@ public class Banco {
 
 		tipoConta = ler.nextInt();
 		if (tipoConta == 1) {
-		} else if (tipoConta == 2) {
+		} 
+		// Karina //
+		else if (tipoConta == 2) {
+			System.out.println("\t\t Tipo de conta selecionada: Corrente");
+			System.out.println();
+			System.out.print("\t\t Digite o número da sua conta: ");
+			numero = ler.nextInt();
+			System.out.print("\t\t Digite o número do seu CPF: ");
+			cpf = ler.next();
+			double talaoCheque = 0;
+			contaCorrente = new ContaCorrente(numero, cpf, false, talaoCheque);
 		}
 		// Giulliana Munhoz //
 		else if (tipoConta == 3) {
-			System.out.println("\t\t Tipo de conta selecionada: Estpecial");
+			System.out.println("\t\t Tipo de conta selecionada: Especial");
 			System.out.println("\t\t Digite o número da sua conta:");
 			numero = ler.nextInt();
 			System.out.println("\t\t Digite o número do seu CPf:");
@@ -77,6 +89,43 @@ public class Banco {
 			System.out.println();
 			System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
 			System.out.println();
+			
+			if (tipoConta == 2) {
+				System.out.println("\t\t\t\tConta Corrente");
+				System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+				System.out.println("\t\t\tSaldo " + contaCorrente.getSaldo());
+				System.out.println("\t\t\tTalões de cheque " + contadorTalao);
+				System.out.print("\t\t\tMOVIMENTO [D] Débito ou [C] Crédito: ");
+				movimento = ler.next();
+				System.out.print("\t\t\tValor movimento: R$  ");
+				valor = ler.nextDouble();
+				if (movimento.equalsIgnoreCase("C")) {
+					contaCorrente.credito(valor);
+					movimentos[operaçoes] = "\t\t\tCrédito " + valor;
+				} else {
+					contaCorrente.debito(valor);
+					movimentos[operaçoes] = "\t\t\tDébito " + valor;
+				}
+				operaçoes = operaçoes + 1;
+					char opcao;
+					do {
+						System.out.print("\t\tDeseja solicitar um talão de cheques? [S] Sim | [N] Não");
+						opcao = ler.next().toUpperCase().charAt(0);
+						System.out.println();
+	                    
+						if(opcao == 'S' && contadorTalao < 3) {
+	                    	contaCorrente.getContadorTalao();
+	                    	System.out.println("\t\t\tTalão solicitado");
+	                    	contadorTalao ++;
+	                    	if (contadorTalao > 3) {
+	                    		System.out.println("\t\tVocê já solicitou seus 3 talões disponíveis no mês.");
+	                    	}
+	                    } 
+						System.out.print("\n\t\t\tContinuar S/N: ");
+						continuar = ler.next();
+				 } while (operaçoes == 10);
+			}
+				
 			if (tipoConta == 3) {
 				System.out.println("Conta Especial");
 				System.out.println("Saldo " + contaMagica.getSaldo());
@@ -92,10 +141,11 @@ public class Banco {
 					movimentos[operaçoes] = "Débito " + valor;
 				}
 				operaçoes = operaçoes + 1;
+			}
 				System.out.print("\t\t\tContinuar S/N: ");
 				continuar = ler.next();
-			}
-			else if (tipoConta == 5) {
+			
+			if (tipoConta == 5) {
 				System.out.println("\t\t\t\tConta Estudante");
 				System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
 				System.out.println("\t\t\tSaldo " + contaEstudante.getSaldo());
@@ -112,7 +162,7 @@ public class Banco {
 				}
 				operaçoes = operaçoes + 1;
 				}
-				System.out.print("\t\t\tContinuar S/N: ");
+				System.out.print("\n\t\t\tContinuar S/N: \n");
 				continuar = ler.next();
 
 		} while (continuar.equalsIgnoreCase("S") && operaçoes < 10);
