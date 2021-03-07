@@ -18,7 +18,7 @@ public class Banco {
 		Scanner ler = new Scanner(System.in);
 		ContaEspecial contaMagica = null;
 		ContaEstudantil contaEstudante = null;
-		ContaCorrente contaCorrente = null;
+		ContaCorrente contaC = null;
 		ContaEmpresa contaEmpresa = null;
 		ContaPoupanca contaPoupanca = null;
 		int diaDigitado = 0;
@@ -69,8 +69,7 @@ public class Banco {
 			numero = ler.nextInt();
 			System.out.print("\t\t Digite o número do seu CPF: ");
 			cpf = ler.next();
-			double talaoCheque = 0;
-			contaCorrente = new ContaCorrente(numero, cpf, false, talaoCheque);
+			contaC = new ContaCorrente(numero, cpf, false, 3);
 		}
 		// Giulliana Munhoz //
 		else if (tipoConta == 3) {
@@ -140,41 +139,68 @@ public class Banco {
 				System.out.print("\n\t\t\tContinuar S/N: \n");
 				continuar = ler.next();
 			
-			if (tipoConta == 2) {
-				System.out.println("\t\t\t\tConta Corrente");
-				System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
-				System.out.println("\t\t\tSaldo " + contaCorrente.getSaldo());
-				System.out.println("\t\t\tTalões de cheque " + contadorTalao);
-				System.out.print("\t\t\tMOVIMENTO [D] Débito ou [C] Crédito: ");
-				movimento = ler.next();
-				System.out.print("\t\t\tValor movimento: R$  ");
-				valor = ler.nextDouble();
-				if (movimento.equalsIgnoreCase("C")) {
-					contaCorrente.credito(valor);
-					movimentos[operaçoes] = "\t\t\tCrédito " + valor;
-				} else {
-					contaCorrente.debito(valor);
-					movimentos[operaçoes] = "\t\t\tDébito " + valor;
-				}
-				operaçoes = operaçoes + 1;
-					char opcao;
-					do {
-						System.out.print("\t\tDeseja solicitar um talão de cheques? [S] Sim | [N] Não");
-						opcao = ler.next().toUpperCase().charAt(0);
-						System.out.println();
-	                    
-						if(opcao == 'S' && contadorTalao < 3) {
-	                    	contaCorrente.getContadorTalao();
-	                    	System.out.println("\t\t\tTalão solicitado");
-	                    	contadorTalao ++;
-	                    	if (contadorTalao > 3) {
-	                    		System.out.println("\t\tVocê já solicitou seus 3 talões disponíveis no mês.");
-	                    	}
-	                    } 
-						System.out.print("\n\t\t\tContinuar S/N: ");
-						continuar = ler.next();
-				 } while (operaçoes == 10);
-			}
+				if(tipoConta == 2) {
+					 do {
+						 System.out.println("\t\t\t\tConta Corrente");
+							System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+							System.out.println("\t\t Saldo " +contaC.getSaldo());
+							System.out.println("Taloes de chuque " + contaC.getContadorTalao());
+							System.out.print("\t\t\tMOVIMENTO [D] Débito ou [C] Crédito: ");
+							movimento = ler.next();
+							
+							System.out.print("\t\t\t Valor movimento: R$  ");
+							valor = ler.nextDouble();
+							
+							if (movimento.equalsIgnoreCase("C")) {
+								
+								contaC.credito(valor);
+								movimentos[operaçoes] = "\t\t\tCrédito " + valor;
+								
+							}else {
+								contaC.debito(valor);
+								movimentos[operaçoes] = "\t\t\tDébito " + valor;
+								
+							}
+							
+							operaçoes = operaçoes + 1;
+							
+							int opcao;
+							do {
+								System.out.println("vc deseja solicitar Talao de Cheque?  1 - Sim ou 2- Não:");
+								opcao = ler.nextInt();
+								
+								if (opcao == 1) {
+									if(contadorTalao == 3) {
+										System.out.println("Limite de talao do mês atingindo ");
+										
+									}else if(contadorTalao < 3) {
+										contaC.getContadorTalao();
+										
+										System.out.println("Talao solicitado ");
+										contaC.setContadorTalao(contaC.getContadorTalao() + 1);
+										
+										if(contadorTalao == 3) {
+											System.out.println("Limite de talao do mês atingindo ");
+											
+										}
+
+									}
+
+								}else if (opcao == 2) {
+									System.out.println("Taloes disponiveis:  "+ contaC.getContadorTalao());
+																
+								}
+								
+							} while (contadorTalao < 3 && opcao != 2);
+							
+							System.out.println("limite de Tala de cheque atingiido " +contadorTalao);
+							
+							System.out.print("\t\t\tContinuar S/N: ");
+							continuar = ler.next();
+							 
+						 }while(continuar.equalsIgnoreCase("S") && operaçoes < 10);
+						 
+					 }
 				
 			if (tipoConta == 3) {
 				System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
@@ -243,9 +269,10 @@ public class Banco {
 					movimentos[operaçoes] = "\t\t\tDébito " + valor;
 				}
 				operaçoes = operaçoes + 1;
-				}
+				
 				System.out.print("\n\t\t\tContinuar S/N: \n");
 				continuar = ler.next();
+			}
 
 		} while (continuar.equalsIgnoreCase("S") && operaçoes < 10);
 		System.out.println(movimentos);
