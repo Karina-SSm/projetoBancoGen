@@ -177,23 +177,35 @@ public class Banco {
 			}
 				
 			if (tipoConta == 3) {
+				System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+				System.out.println();
+				System.out.println("\t\t\t     KIGBJ-G1 BANK ");
+				System.out.println();
+				System.out.println(
+						"\t*~*~*~*~*~*~*~*~*~*~*~* [Dê um Xeque-Mate na sua dor de cabeça] *~*~*~*~*~*~*~*~*~*~*~*");
+				System.out.println();
+				System.out.println("\t*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*~*");
+				System.out.println();
 				System.out.println("Conta Especial");
+				System.out.println("Você possui um limite de Cheque Especial  " + contaMagica.getLimite());
 				System.out.println("Saldo " + contaMagica.getSaldo());
-				System.out.println("MOVIMENTO [D] Débito ou [C] Crédito: ");
+				System.out.println("MOVIMENTO - D-debito ou C-Crédito: ");
 				movimento = ler.next();
 				System.out.println("Valor movimento: R$  ");
 				valor = ler.nextDouble();
 				if (movimento.equalsIgnoreCase("C")) {
 					contaMagica.credito(valor);
 					movimentos[operaçoes] = "Crédito " + valor;
-				} else {
+					
+				} else  {
 					contaMagica.debito(valor);
 					movimentos[operaçoes] = "Débito " + valor;
 				}
+				
 				operaçoes = operaçoes + 1;
-			}
-				System.out.print("\t\t\tContinuar S/N: ");
+				System.out.println("Continuar S/N:");
 				continuar = ler.next();
+			}
 				
 			if (tipoConta == 4) {
 				System.out.println("\t\t\t\tConta Empresa");
